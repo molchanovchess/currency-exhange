@@ -1,0 +1,58 @@
+<div class="wrapper p-3">
+    <div class="d-flex flex-nowrap align-items-center justify-content-center p-2 bd-highlight" style="height: 200px;">
+        <div class="d-flex flex-column justify-content-between bg-light h-100 p-1" style="width: 300px;">
+            <div class="text-sm-center">У меня есть</div>
+            <input [(ngModel)]="value1" (ngModelChange)="buyCurrency()" id="input1" name="input1" type="number"
+                class="form-control" placeholder="Enter Amount" aria-label="Username" aria-describedby="basic-addon1" />
+            <select [(ngModel)]="selectedOption1" (ngModelChange)="buyCurrency()" class="form-select text-danger"
+                aria-label="Default select example">
+                <option [value]="3">Гривна</option>
+                <ng-container *ngFor="let item of options">
+                    <option *ngIf="item.id !== '3'" [value]="item.id">{{item.name}}</option>
+                </ng-container>
+            </select>
+            <div class="text-sm-center">Курс: 1 {{options[+selectedOption1-1].name}} = {{rate | number}}
+                {{options[+selectedOption2-1].name}}</div>
+        </div>
+        <div class="d-flex flex-column justify-content-between mt-2 mb-2 m-5">
+            <div class="text-white mb-3">
+                Курс валют на: {{today | date}}
+            </div>
+            <table class="table table-light table-striped-columns">
+
+                <tbody>
+                    <ng-container *ngFor="let cur of currency">
+                        <tr *ngIf="cur.base_ccy === 'UAH' && cur.ccy ==='USD' ">
+                            <td>$ {{cur.ccy}}</td>
+                            <td class="text-success">{{(+cur.buy).toFixed(2)}}</td>
+                            <td class="text-danger">{{(+cur.sale).toFixed(2)}}</td>
+                        </tr>
+                        <tr *ngIf="cur.base_ccy === 'UAH' && cur.ccy ==='EUR' ">
+                            <td>€ {{cur.ccy}}</td>
+                            <td class="text-success">{{(+cur.buy).toFixed(2)}}</td>
+                            <td class="text-danger">{{(+cur.sale).toFixed(2)}}</td>
+                        </tr>
+
+                    </ng-container>
+                </tbody>
+            </table>
+
+            <button class="btn btn-info text-white" (click)="swapCurrency()"><i
+                    class="fa-solid fa-arrow-right-arrow-left"></i></button>
+        </div>
+        <div class="d-flex flex-column justify-content-between bg-light h-100 p-1" style="width: 300px;">
+            <div class="text-sm-center">Я получу</div>
+            <input [(ngModel)]="value2" (ngModelChange)="sellCurrency()" id="input2" name="input2" type="number"
+                class="form-control" placeholder="Enter Amount" aria-label="Username" aria-describedby="basic-addon1">
+            <select [(ngModel)]="selectedOption2" (ngModelChange)="buyCurrency()" class="form-select text-success"
+                aria-label="Default select example">
+                <option [value]="1">Доллар</option>
+                <ng-container *ngFor="let item of options">
+                    <option *ngIf="item.id !== '1'" [value]="item.id">{{item.name}}</option>
+                </ng-container>
+            </select>
+            <div class="text-sm-center">Курс: {{getBackRate() | number}} {{options[+selectedOption1-1].name}} = 1
+                {{options[+selectedOption2-1].name}}</div>
+        </div>
+    </div>
+</div>
